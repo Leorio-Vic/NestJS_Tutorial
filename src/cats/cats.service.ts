@@ -3,7 +3,9 @@ import { Cat } from './interfaces/cat.interface';
 
 @Injectable()
 export class CatsService {
-  findAll(): any[] {
-    return [];
+  private cats: Cat[] = [];
+
+  findAll(): Cat[] {
+    return this.cats;
   }
 }
