@@ -1,7 +1,6 @@
 import {
   Controller,
   Get,
-  Query,
   Post,
   Body,
   Put,
@@ -12,9 +11,13 @@ import {
 } from '@nestjs/common';
 import { CreateCatDto } from './dto';
 import { Response } from 'express';
+import { CatsService } from './cats.service';
+import { Cat } from './interfaces/cat.interface';
 
 @Controller('cats')
 export class CatsController {
+  constructor(private catsService: CatsService) {}
+
   @Post()
   create(@Body() createCatDto: CreateCatDto, @Res() res: Response) {
     console.log('create cat', createCatDto);
@@ -22,9 +25,14 @@ export class CatsController {
   }
 
   @Get()
-  findAll(@Res() res: Response) {
-    return res.status(HttpStatus.OK).json([]);
+  async findAll(): Promise<Cat[]> {
+    return this.catsService.findAll();
   }
+
+  // @Get()
+  // findAll(@Res() res: Response) {
+  //   return res.status(HttpStatus.OK).json([]);
+  // }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
